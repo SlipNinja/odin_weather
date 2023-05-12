@@ -1,0 +1,31 @@
+{
+  "name": "odin_weather",
+  "version": "1.0.0",
+  "description": "Weather app project following odin's project courses",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SlipNinja/odin_weather.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SlipNinja/odin_weather/issues"
+  },
+  "homepage": "https://github.com/SlipNinja/odin_weather#readme",
+  "dependencies": {
+    "save-dev": "^0.0.1-security",
+    "webpack": "^5.82.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0"
+  },
+  "devDependencies": {
+    "css-loader": "^6.7.3",
+    "style-loader": "^3.3.2"
+  }
+}
