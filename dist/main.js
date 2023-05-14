@@ -311,7 +311,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n* {\n    margin: 0;\n    padding: 0;\n}\n\n#mainelement {\n    display: grid;\n    grid-template-rows: 100px 1fr;\n}\n\n#searchbar {\n    background-color: rgb(47, 59, 29);\n    display: flex;\n    align-items: center;\n}\n\n#display {\n    background-color: rgb(198, 223, 151);\n    min-height: 500px;\n    max-width: 90%;\n    width: 800px;\n    margin-left: 5%;\n    margin-top: 5vh;\n    border-radius: 10px;\n    padding: 15px;\n\n    display: grid;\n    grid-template-rows: repeat(12, 50px);\n}\n\n.title {\n    font-size: 20px;\n    display: flex;\n    align-items: center;\n\n}\n\n.field {\n    background-color: rgb(207, 216, 190);\n    display: flex;\n    align-items: center;\n    border: thin solid gray;\n    border-radius: 5px;\n    padding-left: 10px;\n    margin-bottom: 10px;\n}\n\n#searchfield, #searchbtn {\n    height: 40%;\n    border-radius: 5px;\n    font-size: 18px;\n\n}\n\n#searchfield {\n    width: 300px;\n    padding-left: 10px;\n    margin-left: 20px;\n    margin-right: 20px;\n}\n\n#searchbtn {\n    width: 100px;\n    border: thin solid gray;\n}\n\n#searchbtn:hover {\n    box-shadow: 3px 3px 6px rgb(5, 31, 1);\n    background-color: rgb(36, 59, 31);\n    color: white;\n}\n\n#searchbtn:active {\n    background-color: rgb(11, 22, 9);\n    color: white;\n}\n\n#errorfield {\n    color: rgb(253, 37, 37);\n    font-size: 20px;\n    font-weight: bolder;\n    margin-left: 20px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -416,6 +416,194 @@ module.exports = function (cssWithMappingToString) {
   return list;
 };
 
+/***/ }),
+/* 11 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "displayWeather": () => (/* binding */ displayWeather),
+/* harmony export */   "getWeather": () => (/* binding */ getWeather),
+/* harmony export */   "updateWeather": () => (/* binding */ updateWeather)
+/* harmony export */ });
+
+const weatherkey = "2394dd7f30034b2da3a181205230805";
+
+function updateWeather(e) {
+    const research = document.getElementById("searchfield").value;
+    const weatherresult = getWeather(research);
+    weatherresult.then(displayWeather);
+}
+
+async function getWeather(cityname) {
+
+    let result = "No result";
+    let request = `https://api.weatherapi.com/v1/current.json?key=${weatherkey}&q=${cityname}`;
+
+    result =  await fetch(request, {mode: 'cors'})
+    result = result.json();
+
+    return result;
+}
+
+
+function displayWeather(weather) {// country, city, temperature, wind speed, wind direction
+    
+    if(weather.error){
+        console.log(weather.error);
+        const errorfield = document.getElementById("errorfield");
+        errorfield.hidden = false;
+        return;
+    } else {
+        errorfield.hidden = true;
+    }
+
+    const country = weather.location.country;
+    const city = weather.location.name;
+    const degree = weather.current.temp_c;
+    const condition = weather.current.condition.text;
+    const windSpeed = weather.current.wind_kph;
+    const windDirection = weather.current.wind_dir; // N, E, W, S
+
+    // Fill the display
+    const countryfield = document.getElementById("countryfield");
+    const cityfield = document.getElementById("cityfield");
+    const weatherfield = document.getElementById("weatherfield");
+    const tempfield = document.getElementById("tempfield");
+    const speedfield = document.getElementById("speedfield");
+    const directionfield = document.getElementById("directionfield");
+
+    countryfield.innerHTML = country;
+    cityfield.innerHTML = city;
+    weatherfield.innerHTML = condition;
+    tempfield.innerHTML = degree + '°C';
+    speedfield.innerHTML = windSpeed + ' km/h';
+    directionfield.innerHTML = windDirection;
+}
+
+
+
+/***/ }),
+/* 12 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "buildPage": () => (/* binding */ buildPage)
+/* harmony export */ });
+/* harmony import */ var _weatherTools__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+
+
+function buildPage() {
+    const mainElement = document.createElement("div");
+    mainElement.id = "mainelement";
+
+    const searchBar = document.createElement("div");
+    searchBar.id = "searchbar";
+    addSearchElement(searchBar);
+
+    const display = document.createElement("div");
+    display.id = "display";
+    addDisplayLines(display);
+
+
+    mainElement.appendChild(searchBar);
+    mainElement.appendChild(display);
+
+    document.body.appendChild(mainElement);
+}
+
+function addSearchElement(searchBar) {
+    const searchfield = document.createElement("input");
+    searchfield.id = "searchfield";
+    searchfield.type = "text";
+    searchfield.placeholder = "Enter your city's name...";
+
+    const searchbtn = document.createElement("button");
+    searchbtn.id = "searchbtn";
+    searchbtn.innerHTML = "Search";
+    searchbtn.onclick = _weatherTools__WEBPACK_IMPORTED_MODULE_0__.updateWeather;
+
+    const errorfield = document.createElement("div");
+    errorfield.id = "errorfield";
+    errorfield.innerHTML = "No matching city found !";
+
+    searchBar.appendChild(searchfield);
+    searchBar.appendChild(searchbtn);
+    searchBar.appendChild(errorfield);
+}
+
+function addDisplayLines(display) {
+
+    // COUNTRY
+    const countrytitle = document.createElement("div");
+    countrytitle.innerHTML = "Country";
+    countrytitle.classList.add("title");
+    display.appendChild(countrytitle);
+
+    const country = document.createElement("div");
+    country.classList.add("field");
+    country.id = "countryfield";
+    display.appendChild(country);
+
+    // CITY
+    const citytitle = document.createElement("div");
+    citytitle.innerHTML = "City";
+    citytitle.classList.add("title");
+    display.appendChild(citytitle);
+
+    const city = document.createElement("div");
+    city.classList.add("field");
+    city.id = "cityfield";
+    display.appendChild(city);
+
+    // WEATHER
+    const weathertitle = document.createElement("div");
+    weathertitle.innerHTML = "Weather";
+    weathertitle.classList.add("title");
+    display.appendChild(weathertitle);
+
+    const weather = document.createElement("div");
+    weather.classList.add("field");
+    weather.id = "weatherfield";
+    display.appendChild(weather);
+
+    // TEMPERATURE
+    const temptitle = document.createElement("div");
+    temptitle.innerHTML = "Temperature";
+    temptitle.classList.add("title");
+    display.appendChild(temptitle);
+
+    const temp = document.createElement("div");
+    temp.classList.add("field");
+    temp.id = "tempfield";
+    display.appendChild(temp);
+
+    // WIND SPEED
+    const speedtitle = document.createElement("div");
+    speedtitle.innerHTML = "Wind speed";
+    speedtitle.classList.add("title");
+    display.appendChild(speedtitle);
+
+    const speed = document.createElement("div");
+    speed.classList.add("field");
+    speed.id = "speedfield";
+    display.appendChild(speed);
+
+    // WIND DIRECTION
+    const dirtitle = document.createElement("div");
+    dirtitle.innerHTML = "Wind direction";
+    dirtitle.classList.add("title");
+    display.appendChild(dirtitle);
+
+    const direction = document.createElement("div");
+    direction.classList.add("field");
+    direction.id = "directionfield";
+    display.appendChild(direction);
+}
+
+
+
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -495,9 +683,20 @@ var __webpack_exports__ = {};
 (() => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _weatherTools__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
+/* harmony import */ var _pageBuilder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
 
 
-console.log("First test");
+
+
+(0,_pageBuilder__WEBPACK_IMPORTED_MODULE_2__.buildPage)();
+
+const tmpCity = "paris";
+
+(0,_weatherTools__WEBPACK_IMPORTED_MODULE_1__.getWeather)(tmpCity).then((weather) => {
+    console.log(weather);
+    (0,_weatherTools__WEBPACK_IMPORTED_MODULE_1__.displayWeather)(weather);
+});
 })();
 
 /******/ })()
