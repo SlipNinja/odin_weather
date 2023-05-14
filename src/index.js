@@ -1,6 +1,12 @@
 import './style.css';
-import { getWeather } from './weatherTools';
+import { displayWeather, getWeather } from './weatherTools';
+import { buildPage } from './pageBuilder';
 
-getWeather().then((weather) => {
+buildPage();
+
+const tmpCity = "paris";
+
+getWeather(tmpCity).then((weather) => {
     console.log(weather);
+    displayWeather(weather);
 });

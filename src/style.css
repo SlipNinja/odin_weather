@@ -1,0 +1,84 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#mainelement {
+    display: grid;
+    grid-template-rows: 100px 1fr;
+}
+
+#searchbar {
+    background-color: rgb(47, 59, 29);
+    display: flex;
+    align-items: center;
+}
+
+#display {
+    background-color: rgb(198, 223, 151);
+    min-height: 500px;
+    max-width: 90%;
+    width: 800px;
+    margin-left: 5%;
+    margin-top: 5vh;
+    border-radius: 10px;
+    padding: 15px;
+
+    display: grid;
+    grid-template-rows: repeat(12, 50px);
+}
+
+.title {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+
+}
+
+.field {
+    background-color: rgb(207, 216, 190);
+    display: flex;
+    align-items: center;
+    border: thin solid gray;
+    border-radius: 5px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+#searchfield, #searchbtn {
+    height: 40%;
+    border-radius: 5px;
+    font-size: 18px;
+
+}
+
+#searchfield {
+    width: 300px;
+    padding-left: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#searchbtn {
+    width: 100px;
+    border: thin solid gray;
+}
+
+#searchbtn:hover {
+    box-shadow: 3px 3px 6px rgb(5, 31, 1);
+    background-color: rgb(36, 59, 31);
+    color: white;
+}
+
+#searchbtn:active {
+    background-color: rgb(11, 22, 9);
+    color: white;
+}
+
+#errorfield {
+    color: rgb(253, 37, 37);
+    font-size: 20px;
+    font-weight: bolder;
+    margin-left: 20px;
+}
